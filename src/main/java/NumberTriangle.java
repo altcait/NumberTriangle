@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Arrays;
 
 /**
  * This is the provided NumberTriangle class to be used in this coding task.
@@ -118,11 +119,26 @@ public class NumberTriangle {
 
         String line = br.readLine();
         while (line != null) {
+            String[] nums = line.split(" ");
+            if (nums.length == 1) {
+                top = new NumberTriangle(Integer.parseInt(nums[0]));
+            }
+            else {
+                NumberTriangle newLeftRoot = loadTriangle(nums[0]);
+                NumberTriangle newRightRoot = loadTriangle(nums[1]);
+                top.setLeft(newLeftRoot);
+                top.setRight(newRightRoot);
+            }
 
             // remove when done; this line is included so running starter code prints the contents of the file
             System.out.println(line);
 
             // TODO process the line
+
+            for(String num : nums) {
+
+            }
+
 
             //read the next line
             line = br.readLine();
