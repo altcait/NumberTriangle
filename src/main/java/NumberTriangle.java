@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This is the provided NumberTriangle class to be used in this coding task.
@@ -92,8 +93,25 @@ public class NumberTriangle {
      *
      */
     public int retrieve(String path) {
-        // TODO implement this method
-        return -1;
+
+        if (Objects.equals(path, "")) {
+            return  this.root;
+        }
+
+        char[] pathParts = path.toCharArray();
+        char rightDir = 'r';
+        char leftDir = 'l';
+        NumberTriangle current = this;
+
+        for (char direction : pathParts) {
+            if (direction == rightDir) {
+                current = current.right;
+            } else if (direction  == leftDir) {
+                current = current.left;
+            }
+        }
+
+        return current.getRoot();
     }
 
     /** Read in the NumberTriangle structure from a file.
@@ -132,9 +150,6 @@ public class NumberTriangle {
                 item.setLeft(currentLine.get(i));
                 item.setRight(currentLine.get(i + 1));
             }
-
-            // remove when done; this line is included so running starter code prints the contents of the file
-            System.out.println(line);
 
             // set previous line to current line
             prevLine = currentLine;
