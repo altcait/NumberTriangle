@@ -1,5 +1,7 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * This is the provided NumberTriangle class to be used in this coding task.
@@ -35,6 +37,7 @@ public class NumberTriangle {
     private NumberTriangle left;
     private NumberTriangle right;
 
+    // constructor
     public NumberTriangle(int root) {
         this.root = root;
     }
@@ -110,35 +113,31 @@ public class NumberTriangle {
         InputStream inputStream = NumberTriangle.class.getClassLoader().getResourceAsStream(fname);
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 
-
-        // TODO define any variables that you want to use to store things
-
-        // will need to return the top of the NumberTriangle,
-        // so might want a variable for that.
-        NumberTriangle top = null;
+        // read in first line of the file. create NumberTriangle for topmost element
+        NumberTriangle top = new NumberTriangle(Integer.parseInt(br.readLine()));
+        List<NumberTriangle> prevLine = new ArrayList<>();
+        prevLine.add(top);
 
         String line = br.readLine();
         while (line != null) {
+            List<NumberTriangle> currentLine = new ArrayList<>();
             String[] nums = line.split(" ");
-            if (nums.length == 1) {
-                top = new NumberTriangle(Integer.parseInt(nums[0]));
+            // Make a new NumberTriangle for each item in the line
+            for (String num : nums) {
+                currentLine.add(new NumberTriangle(Integer.parseInt(num)));
             }
-            else {
-                NumberTriangle newLeftRoot = loadTriangle(nums[0]);
-                NumberTriangle newRightRoot = loadTriangle(nums[1]);
-                top.setLeft(newLeftRoot);
-                top.setRight(newRightRoot);
+
+            for(int i = 0; i < prevLine.size(); i++){
+                NumberTriangle item = prevLine.get(i);
+                item.setLeft(currentLine.get(i));
+                item.setRight(currentLine.get(i + 1));
             }
 
             // remove when done; this line is included so running starter code prints the contents of the file
             System.out.println(line);
 
-            // TODO process the line
-
-            for(String num : nums) {
-
-            }
-
+            // set previous line to current line
+            prevLine = currentLine;
 
             //read the next line
             line = br.readLine();
